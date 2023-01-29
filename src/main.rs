@@ -11,7 +11,8 @@ async fn main() -> std::io::Result<()> {
             .run()
             .await
     
-}
+} 
+    
     
 async fn health_check() -> impl Responder {
     HttpResponse::Ok()
