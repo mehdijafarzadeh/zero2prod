@@ -4,7 +4,6 @@ use uuid::Uuid;
 use zero_to_prod::configuration::{get_configuration, DatabaseSettings};
 use zero_to_prod::startup::run;
 
-
 pub struct TestApp {
     pub address: String,
     pub db_pool: PgPool,
@@ -17,8 +16,11 @@ async fn spawn_app() -> TestApp {
     let address = format!("http://127.0.0.1:{}", port);
 
     let mut configuration = get_configuration().expect("Failed to read configuration.");
-    configuration.database.database_name = Uuid::new_v4().to_string();
-    let connection_pool = configure_database(&configuration.database).await;
+        configuration.database.database_name = Uuid::new_v4().to_string();
+
+    let connection_pool = PgPool::connect(&configuration.database.connection_string())
+        .await
+        .expect("Failed to connect to Postgres.");
 
     let server = run(listener, connection_pool.clone()).expect("Failed to bind address");
     let _ = tokio::spawn(server);
