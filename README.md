@@ -1,4 +1,4 @@
-# zero_to_prod
+# Actix-web
 I try to go through the book and update the repo!
 
 ### Run the project
