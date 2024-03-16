@@ -11,7 +11,7 @@ pub struct DatabaseSettings {
     pub password: String,
     pub port: u16,
     pub host: String,
-    pub database_name: String
+    pub database_name: String,
 }
 impl DatabaseSettings {
     pub fn connection_string(&self) -> String {
@@ -26,10 +26,8 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
     let mut settings = config::Config::builder()
         .add_source(config::File::new(
             "configuration.yaml",
-            config::FileFormat::Yaml
+            config::FileFormat::Yaml,
         ))
         .build()?;
     settings.try_deserialize::<Settings>()
-
-
 }
